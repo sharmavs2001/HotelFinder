@@ -1,0 +1,14 @@
+.outer{
+    padding: 2%;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.box{
+    padding: 5%;
+}
+
+#heading{
+    color: black !important;
+    margin-right: 1%;
+}

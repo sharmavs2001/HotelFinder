@@ -1,0 +1,61 @@
+.form
+{ 
+    border-radius: 25px;
+    border: 4px solid rgb(225, 224, 215,0.5);
+    padding: 3%;
+    width: 100%;
+    font-family:sans-serif;    
+    background-color: transparent;
+}
+
+label{
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+    margin-top: 2%;
+    
+}
+
+button{
+    margin-top: 2%;
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+}
+
+h1{
+    text-align: center;
+   color: rgb(255, 255, 255);
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+input{
+   background-color:  rgb(255, 255, 255,0.85) !important;
+}
+
+select{
+    outline: 5px solid rgb(255, 255, 255,0) !important;
+    height: 35px;
+    background-color:  rgb(255, 255, 255,0.85) !important;
+
+
+}
+
+input[type="text"]:focus{
+    border:0;
+    background-color:  rgb(255, 255, 255) !important;
+    outline: 5px solid rgb(255, 255, 255,0.5);
+}
+
+select:focus{ 
+    border:0;
+    background-color:  rgb(255, 255, 255) !important ;
+    outline: 5px solid rgb(255, 255, 255,0.5) !important; ;
+    color: black !important;
+   font-size: 15.5px !important;
+
+}
+
+#sel{
+color: gray;
+font-size: 15.5px;
+
+}
