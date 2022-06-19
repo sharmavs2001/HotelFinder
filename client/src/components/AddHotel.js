@@ -8,65 +8,67 @@ const AddHotel = () => {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [priceRange, setPriceRange] = useState("default");
+  const [image, setImage] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault(); //prevents html from reloading
+  const handleSubmit = async (e) => { 
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('File', image);
+    formData.append('Name', name);
+    formData.append('Location', location);
+    formData.append('PriceRange', priceRange);
 
-    try {
-      const response = await HotelFinder.post("", {
-        name,
-        location,
-        price_range: priceRange,
+      const response = await HotelFinder.post("", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
       
       addHotels(response.data.data.Hotels[0]);
+    };
 
-    } catch (error) {}
-  };
 
   return (
-    <form className ="form">
-      <h1>Add Hotel</h1>
+    <form className="form">
+      <h1 className="head">Add Hotel</h1>
       <div className="form-group">
-        <label htmlFor="name" className="white">Name</label>
+        <label htmlFor="name" className="white">
+          Name
+        </label>
         <input
           id="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           type="text"
           className="form-control"
-          placeholder="name"
+          placeholder="Enter name"
         />
       </div>
       <div className="form-group">
-        <label htmlFor="location" className="white">Location</label>
+        <label htmlFor="location" className="white">
+          Location
+        </label>
         <input
-        id="location"
+          id="location"
           className="form-control"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
           type="text"
-          placeholder="location"
+          placeholder="Location"
         />
         <div />
         <div className="form-group">
           <div>
-          <label htmlFor="sel" > Price Range </label>
+            <label htmlFor="sel"> Price Range </label>
           </div>
           <select
-         
-          id="sel"
+            id="sel"
             defaultValue={priceRange}
-            
-            onChange={(e) => setPriceRange(e.target.value)
-            
-            }
-            className="form-select form-select-sm" 
+            onChange={(e) => setPriceRange(e.target.value)}
+            className="form-select form-select-sm"
             aria-label=".form-select-lg example"
-          > 
-        <option  id = "sel"  value="default" disabled hidden>
-          select price range
-        </option>
+          >
+            <option id="sel" value="default" disabled hidden>
+              Select price range
+            </option>
             <option value="1">$</option>
             <option value="2">$$</option>
             <option value="3">$$$</option>
@@ -76,15 +78,18 @@ const AddHotel = () => {
         </div>
         <div>
           <span>
-       
-        </span>
-        <button
-          onClick={handleSubmit}
-          type="submit"
-          className="btn btn-primary"
-        >
-          Add Hotel
-        </button>
+            <label className="form-label" htmlFor="customFile">
+              Upload Image
+            </label>
+            <input onChange={ (event) => { setImage( event.target.files[0]); } } type="file" accept="image/png, image/jpeg" className="form-control" id="customFile" />
+          </span>
+          <button id ="addbtn"
+            onClick={handleSubmit}
+            type="submit"
+            className="btn btn-primary"
+          >
+            Add Hotel
+          </button>
         </div>
       </div>
     </form>

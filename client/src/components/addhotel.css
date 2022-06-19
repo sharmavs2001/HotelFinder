@@ -6,6 +6,7 @@
     width: 100%;
     font-family:sans-serif;    
     background-color: transparent;
+    height: 550px;
 }
 
 label{
@@ -22,21 +23,27 @@ button{
 }
 
 h1{
-    text-align: center;
+    
    color: rgb(255, 255, 255);
    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
 
 input{
    background-color:  rgb(255, 255, 255,0.85) !important;
 }
 
+input:hover{
+    border:0;
+    background-color:  rgb(255, 255, 255) !important ;
+    outline: 5px solid rgb(255, 255, 255,0.5) !important; ;
+}
+
 select{
-    outline: 5px solid rgb(255, 255, 255,0) !important;
+    border: none !important;
+    outline: none !important;
     height: 35px;
     background-color:  rgb(255, 255, 255,0.85) !important;
-
-
 }
 
 input[type="text"]:focus{
@@ -45,11 +52,10 @@ input[type="text"]:focus{
     outline: 5px solid rgb(255, 255, 255,0.5);
 }
 
-select:focus{ 
+select:hover{ 
     border:0;
     background-color:  rgb(255, 255, 255) !important ;
     outline: 5px solid rgb(255, 255, 255,0.5) !important; ;
-    color: black !important;
    font-size: 15.5px !important;
 
 }
@@ -58,4 +64,34 @@ select:focus{
 color: gray;
 font-size: 15.5px;
 
+}
+
+
+#customFile{
+    height:35px;
+    width: fit-content;
+    font-family:sans-serif !important;    
+    color: gray;
+}
+
+#customFile:hover{
+    border:0;
+    background-color:  rgb(255, 255, 255) !important ;
+    outline: 5px solid rgb(255, 255, 255,0.5) !important; ;
+}
+
+#addbtn{
+    position: absolute;
+    top: 80%;
+    left: 51.5%;
+    width: 14%;
+    border-radius: 20px;
+    border: 0;
+    padding: 6px;
+    background-color: rgb(52, 77, 242,0.9);
+
+}
+
+#addbtn:hover{
+   outline: 5px solid rgb(255, 255, 255,0.5) !important; ;
 }

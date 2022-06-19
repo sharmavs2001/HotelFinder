@@ -8,7 +8,7 @@ import logo from "../images/logo.png"
 
 const Header = () => {
   return (
-    <>
+    <div >
     
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
   <div className="container-fluid">
@@ -77,7 +77,7 @@ const Header = () => {
 </div>
 
 
-    </>
+    </div>
    
   )
 };

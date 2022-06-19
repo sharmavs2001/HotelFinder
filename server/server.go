@@ -4,9 +4,11 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/rs/cors"
 
@@ -104,8 +106,6 @@ func handleRequests() {
 
 func GetAllHotels(w http.ResponseWriter, r *http.Request) {
 
-	w.Header().Set("Content-Type", "application/json")
-
 	db := setupDB()
 
 	if db == nil {
@@ -194,7 +194,45 @@ func GetHotel(w http.ResponseWriter, r *http.Request) {
 
 func CreateHotel(w http.ResponseWriter, r *http.Request) {
 
-	w.Header().Set("Content-Type", "text/plain; charset=utf-")
+	err := r.ParseMultipartForm(32 << 20) // maxMemory 32MB
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	file, h, err := r.FormFile("File")
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	counter := 0
+
+	_, err = os.Stat("./images/" + h.Filename)
+
+	for err == nil { //file exists
+		counter++
+		_, err = os.Stat("./images/" + strconv.Itoa(counter) + h.Filename)
+	}
+	s := ""
+	if counter != 0 {
+		s = strconv.Itoa(counter)
+	}
+
+	tmpfile, err := os.Create("./images/" + s + h.Filename)
+	defer tmpfile.Close()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	addr := "./images/" + s + h.Filename
+
+	_, err = io.Copy(tmpfile, file)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 
 	db := setupDB() // connect to the database
 	if db == nil {
@@ -202,22 +240,17 @@ func CreateHotel(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var h Hotel
-
-	err := json.NewDecoder(r.Body).Decode(&h)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-
-	erro := db.QueryRow("INSERT INTO hotels(name, location, price_range) VALUES($1, $2, $3) returning id;", h.Name, h.Location, h.Price_range).Scan(&h.Id)
+	var m_id int
+	erro := db.QueryRow("INSERT INTO hotels(name, location, price_range) VALUES($1, $2, $3) returning id;", r.FormValue("Name"), r.FormValue("Location"), r.FormValue("PriceRange")).Scan(&m_id)
 	if erro != nil { // if there is an error, handle it
 		log.Println(erro)
 	}
 
-	var myresponse = JsonResponse{Status: "success", Data: Hotels{Hotels: []Hotel{h}}}
-	json.NewEncoder(w).Encode(myresponse)
+	var hotels []Hotel
 
+	hotels = append(hotels, Hotel{Id: m_id, Name: r.FormValue("Name"), Location: r.FormValue("Location"), Price_range: r.FormValue("PriceRange")})
+	var myresponse = JsonResponse{Status: "success", Data: Hotels{Hotels: hotels}}
+	json.NewEncoder(w).Encode(myresponse)
 }
 
 func UpdateHotel(w http.ResponseWriter, r *http.Request) {

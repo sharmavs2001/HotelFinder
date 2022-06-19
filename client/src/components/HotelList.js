@@ -19,7 +19,7 @@ const HotelList = (props) => {
     fetchData();
   },[]);
 
-  const handleDelete = async (e, id) => {
+  const handleDelete = async (e, id) => { 
     e.stopPropagation();
     try {
       const response = await HotelFinder.delete(`/${id}`);
@@ -51,7 +51,10 @@ const HotelList = (props) => {
             
               <div className="col">
                 <div className="card">
-                  <img className="card-img-top" src="..." alt="Card image cap" />
+                
+                { hotel.img  ? (  <img className="card-img-top"  src={hotel.img} alt="Card cap" />):
+                (<img className="card-img-top"  src="" alt="Card cap" />) }
+
                   <div className="card-body">
                     <h5 className="card-title">{hotel.name}</h5>
                     <p className="card-text">{hotel.location}</p>
